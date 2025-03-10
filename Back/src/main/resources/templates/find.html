@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>비밀번호 찾기</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Apple SD Gothic Neo", sans-serif;
+        }
+
+        body {
+            background-color: #ffffff;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .back-button {
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .highlight {
+            color: #9b59b6;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 15px;
+        }
+
+        .input-group input {
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            transition: border-color 0.3s ease;
+        }
+
+        .input-group input:focus {
+            border-color: #9b59b6;
+            outline: none;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 12px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-primary {
+            background-color: #9b59b6;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #8e44ad;
+        }
+
+        .btn-secondary {
+            background-color: #bdc3c7;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #95a5a6;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="back-button" onclick="history.back()">
+        <span>⬅</span> 뒤로 가기
+    </div>
+
+    <a href="#" class="highlight">비밀번호 찾기</a>
+    <h2>가입 시 등록했던 이메일 주소를 입력해주세요.</h2>
+    <p>이메일 주소로 인증번호를 보내드립니다.</p>
+
+    <div class="input-group">
+        <label for="email">이메일</label>
+        <input type="email" id="email" placeholder="이메일 입력" required>
+        <button class="btn btn-primary" onclick="sendEmail()">인증번호 전송</button>
+    </div>
+
+    <div class="input-group">
+        <label for="code">인증번호</label>
+        <input type="text" id="code" placeholder="인증번호 입력" required>
+        <button class="btn btn-secondary" onclick="findPassword()">비밀번호 확인</button>
+    </div>
+</div>
+
+<script>
+    // ✅ 이메일로 인증번호 전송
+    function sendEmail() {
+        const email = document.getElementById('email').value.trim();
+        if (!email) {
+            alert("이메일을 입력해주세요.");
+            return;
+        }
+
+        console.log("[📩 요청] 인증번호 전송: ", email);
+
+        fetch('http://localhost:8080/member/send-email', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `email=${encodeURIComponent(email)}`
+        })
+            .then(response => {
+                console.log("[📩 응답] ", response);
+                if (response.ok) {
+                    return response.text();
+                } else {
+                    throw new Error('🚫 이메일 전송 실패');
+                }
+            })
+            .then(message => {
+                alert(message);
+            })
+            .catch(error => {
+                console.error("[❌ 오류]", error);
+                alert(error);
+            });
+    }
+
+    // ✅ 비밀번호 찾기 (인증번호 검증)
+    function findPassword() {
+        const email = document.getElementById('email').value.trim();
+        const code = document.getElementById('code').value.trim();
+
+        if (!email) {
+            alert("이메일을 입력해주세요.");
+            return;
+        }
+
+        if (!code) {
+            alert("인증번호를 입력해주세요.");
+            return;
+        }
+
+        console.log("[🔍 요청] 비밀번호 찾기: ", { email, code });
+
+        fetch('http://localhost:8080/member/find-password', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `email=${encodeURIComponent(email)}&code=${encodeURIComponent(code)}`
+        })
+            .then(response => {
+                console.log("[🔍 응답] ", response);
+                if (response.ok) {
+                    return response.text();
+                } else {
+                    throw new Error('🚫 인증번호가 올바르지 않습니다.');
+                }
+            })
+            .then(password => {
+                alert(`✅ 비밀번호: ${password}`);
+            })
+            .catch(error => {
+                console.error("[❌ 오류]", error);
+                alert(error);
+            });
+    }
+</script>
+
+</body>
+</html>
