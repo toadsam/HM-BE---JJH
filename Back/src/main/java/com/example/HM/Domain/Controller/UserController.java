@@ -1,4 +1,4 @@
-package com.example.HM.Domain.Member.Controller; // 패키지 위치에 맞게 수정
+package com.example.HM.Domain.Controller; // 패키지 위치에 맞게 수정
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

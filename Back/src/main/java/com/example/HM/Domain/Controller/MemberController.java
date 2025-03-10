@@ -1,4 +1,4 @@
-package com.example.HM.Domain.Member.Controller;
+package com.example.HM.Domain.Controller;
 
 import com.example.HM.Domain.Member.DTO.MemberDTO;
 import com.example.HM.Domain.Member.Service.MemberService;
