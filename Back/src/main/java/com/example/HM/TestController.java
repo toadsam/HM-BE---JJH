@@ -1,4 +1,4 @@
-package com.example.Back;
+package com.example.HM;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
