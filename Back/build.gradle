@@ -9,27 +9,63 @@ version = '0.0.1-SNAPSHOT'
 
 java {
 	toolchain {
-		languageVersion = JavaLanguageVersion.of(21)
-	}
-}
-
-configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
+		languageVersion = JavaLanguageVersion.of(17)
 	}
 }
 
 repositories {
 	mavenCentral()
+	maven { url "https://jitpack.io" } // JitPack 저장소 추가
+	maven { url "https://repo.spring.io/release" } // Spring 공식 저장소 추가
+	maven { url "https://repo1.maven.org/maven2/" } // Maven 기본 저장소 추가
 }
 
 dependencies {
+
+
+
+
+	//email
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+	implementation 'jakarta.mail:jakarta.mail-api:2.1.2'
+	implementation 'com.sun.mail:jakarta.mail:2.0.1'
+
+	// Spring Boot Starter Web
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	compileOnly 'org.projectlombok:lombok'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	annotationProcessor 'org.projectlombok:lombok'
+
+	// JPA
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+	// Test
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+	// MySQL
+	runtimeOnly 'com.mysql:mysql-connector-j'
+
+	// Lombok
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+
+	implementation 'org.springframework.boot:spring-boot-starter-security' // ✅ Spring Security 기본 라이브러리
+	implementation 'org.springframework.security:spring-security-config' // ✅ Security 설정 관련 추가 패키지
+	// ✅ JWT 라이브러리 최신화 (각 모듈 개별 추가)
+	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+	implementation 'io.jsonwebtoken:jjwt-impl:0.11.5'
+	implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5' // JSON 파싱
+	//implementation 'io.jsonwebtoken:jjwt:0.11.5' // ✅ JWT 라이브러리 추가
+
+	// Security
+	//implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.security:spring-security-test'
+
+	// Gpt
+	implementation 'io.github.flashvayne:chatgpt-spring-boot-starter:1.0.4'
+
+	// swagger
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
+
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 }
 
 tasks.named('test') {
