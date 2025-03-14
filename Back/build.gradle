@@ -24,11 +24,17 @@ dependencies {
 
 
 
+	implementation 'io.github.cdimascio:java-dotenv:5.2.2'
+
 
 	//email
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 	implementation 'jakarta.mail:jakarta.mail-api:2.1.2'
 	implementation 'com.sun.mail:jakarta.mail:2.0.1'
+
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.security:spring-security-oauth2-client'
+	implementation 'org.springframework.security:spring-security-oauth2-core'
 
 	// Spring Boot Starter Web
 	implementation 'org.springframework.boot:spring-boot-starter-web'

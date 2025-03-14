@@ -7,7 +7,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class BackApplication {
 
 	public static void main(String[] args) {
+		System.out.println("OPENAI_API_KEY from System.getenv(): " + System.getenv("OPENAI_API_KEY"));
 		SpringApplication.run(BackApplication.class, args);
 	}
+
 
 }
